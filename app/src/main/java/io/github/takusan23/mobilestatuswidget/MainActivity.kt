@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import io.github.takusan23.mobilestatuswidget.activity.PermissionRequestActivity
 import io.github.takusan23.mobilestatuswidget.databinding.ActivityMainBinding
 import io.github.takusan23.mobilestatuswidget.tool.MobileDataUsageTool
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,12 +20,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
 
         // 権限がなければ権限取得画面に飛ばす
-        if (MobileDataUsageTool.isGrantedUsageStatusPermission(this)) {
+        if (MobileDataUsageTool.isGrantedUsageStatusPermission(this) && MobileDataUsageTool.isGrantedReadPhoneAndFineLocation(this)) {
             // 権限ありますね
             Toast.makeText(this, "権限が付与されています", Toast.LENGTH_SHORT).show()
         } else {
             // 権限ください画面
             Intent(this, PermissionRequestActivity::class.java).let { intent -> startActivity(intent) }
+            return
         }
 
     }

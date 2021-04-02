@@ -9,11 +9,15 @@ import android.content.Intent
 import android.widget.RemoteViews
 import io.github.takusan23.mobilestatuswidget.R
 import io.github.takusan23.mobilestatuswidget.tool.MobileDataUsageTool
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
- * モバイルデータの使用量を表示するウイジェット
+ * Implementation of App Widget functionality.
  */
-class MobileDataUsageWidget : AppWidgetProvider() {
+class BandWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         updateAppWidget(context)
     }
@@ -26,14 +30,13 @@ class MobileDataUsageWidget : AppWidgetProvider() {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-    /**
-     * 更新ボタンを受け取る
-     * */
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
+
         if (context != null) {
             updateAppWidget(context)
         }
+
     }
 
     companion object {
@@ -42,25 +45,25 @@ class MobileDataUsageWidget : AppWidgetProvider() {
          * ウイジェットを更新する関数
          * */
         fun updateAppWidget(context: Context) {
-            val componentName = ComponentName(context, MobileDataUsageWidget::class.java)
+            val componentName = ComponentName(context, BandWidget::class.java)
             val manager = AppWidgetManager.getInstance(context)
             val ids = manager.getAppWidgetIds(componentName)
             ids.forEach { id ->
                 // RemoteView
-                val views = RemoteViews(context.packageName, R.layout.widget_mobile_data_usage)
+                val views = RemoteViews(context.packageName, R.layout.widget_band)
                 // 更新。このクラスにブロードキャストを送信する
-                val pendingIntent = PendingIntent.getBroadcast(context, 25, Intent(context, MobileDataUsageWidget::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
-                views.setOnClickPendingIntent(R.id.widget_mobile_data_usage_image_view, pendingIntent)
+                val pendingIntent = PendingIntent.getBroadcast(context, 50, Intent(context, BandWidget::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+                views.setOnClickPendingIntent(R.id.widget_band_image_view, pendingIntent)
                 // 権限があるときのみ
-                if (MobileDataUsageTool.isGrantedUsageStatusPermission(context)) {
-                    // 通信量を入れる
-                    val usageMB = String.format("%.2f", MobileDataUsageTool.getMobileDataUsageFromCurrentMonth(context) / 1024f / 1024f)
-                    val usageGB = String.format("%.2f", MobileDataUsageTool.getMobileDataUsageFromCurrentMonth(context) / 1024f / 1024f / 1024f)
-                    views.setTextViewText(R.id.widget_mobile_data_usage_text_view,"$usageGB GB 使用済み")
-                    views.setTextViewText(R.id.widget_mobile_data_usage_sub_text_view,"($usageMB MB)")
-                    manager.updateAppWidget(id, views)
+                if (MobileDataUsageTool.isGrantedReadPhoneAndFineLocation(context)) {
+                    GlobalScope.launch {
+                        val bandPair = MobileDataUsageTool.getEarfcnOrNrarfcn(context)
+                        views.setTextViewText(R.id.widget_band_text_view, "バンド：${bandPair?.first}")
+                        views.setTextViewText(R.id.widget_band_sub_text_view, bandPair?.second.toString())
+                        manager.updateAppWidget(id, views)
+                    }
                 } else {
-                    views.setTextViewText(R.id.widget_mobile_data_usage_text_view, "権限がありません")
+                    views.setTextViewText(R.id.widget_band_text_view, "権限がありません")
                     manager.updateAppWidget(id, views)
                 }
             }

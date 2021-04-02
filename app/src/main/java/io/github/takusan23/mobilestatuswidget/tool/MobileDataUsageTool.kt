@@ -1,11 +1,19 @@
 package io.github.takusan23.mobilestatuswidget.tool
 
+import android.Manifest
 import android.app.AppOpsManager
 import android.app.usage.NetworkStatsManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Process
+import android.telephony.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import java.util.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * モバイルデータ使用量を取得するなど
@@ -26,6 +34,15 @@ object MobileDataUsageTool {
             appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), context.packageName)
         }
         return mode == AppOpsManager.MODE_ALLOWED
+    }
+
+    /**
+     * ACCESS_FINE_LOCATION と READ_PHONE_STATE の権限を取得済みかどうか
+     * */
+    fun isGrantedReadPhoneAndFineLocation(context: Context): Boolean {
+        val accessFine = ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION)
+        val readPhone = ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE)
+        return (accessFine == PackageManager.PERMISSION_GRANTED) && (readPhone == PackageManager.PERMISSION_GRANTED)
     }
 
     /**
@@ -79,6 +96,55 @@ object MobileDataUsageTool {
             mobileDataUsageList.add(bucket.txBytes + bucket.rxBytes)
         }
         return mobileDataUsageList
+    }
+
+    /**
+     * 現在接続している　絶対無線周波数チャンネル番号 を返す
+     *
+     * 失敗したらnullを返す
+     *
+     * @return 一個目はBand、二個目は周波数チャンネル番号？
+     * */
+    suspend fun getEarfcnOrNrarfcn(context: Context): Pair<Int, Int>? {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return null
+        val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        // Android Q 以降は最新の値返ってこないらしい（キャッシュを返すため、リクエストが必要）のでコルーチンで解決
+        val callIdentity = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            suspendCoroutine {
+                telephonyManager.requestCellInfoUpdate(context.mainExecutor, object : TelephonyManager.CellInfoCallback() {
+                    override fun onCellInfo(cellInfoList: MutableList<CellInfo>) {
+                        val cellInfo = cellInfoList[0]
+                        it.resume(cellInfo)
+                    }
+                })
+            }
+        } else {
+            telephonyManager.allCellInfo[0]
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Android 10 以降。5Gに対応
+            return when {
+                callIdentity is CellInfoLte -> {
+                    val earfcn = callIdentity.cellIdentity.earfcn
+                    Pair(BandDictionary.toLTEBand(earfcn), earfcn)
+                }
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) && callIdentity is CellInfoNr -> {
+                    val nrarfcn = (callIdentity.cellIdentity as CellIdentityNr).nrarfcn
+                    Pair(BandDictionary.toNRBand(nrarfcn), nrarfcn)
+                }
+                else -> null
+            }
+        } else {
+            // Android 9 以前
+            return when (callIdentity) {
+                is CellInfoLte -> {
+                    val earfcn = callIdentity.cellIdentity.earfcn
+                    Pair(BandDictionary.toLTEBand(earfcn), earfcn)
+                }
+                else -> null
+            }
+        }
     }
 
 }

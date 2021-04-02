@@ -3,7 +3,9 @@
     package="io.github.takusan23.mobilestatuswidget">
 
     <!-- 使用状況へのアクセス 権限 -->
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" /> <!-- バンド取得 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileStatusWidget">
-        <receiver android:name=".widget.MobileDataUsageWidget">
+
+        <receiver android:name=".widget.BandWidget" android:label="バンド表示">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/band_widget_info" />
+        </receiver>
+
+        <receiver android:name=".widget.MobileDataUsageWidget"  android:label="通信量表示">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
