@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.github.takusan23.mobilestatuswidget.activity.PermissionRequestActivity
 import io.github.takusan23.mobilestatuswidget.databinding.ActivityMainBinding
-import io.github.takusan23.mobilestatuswidget.tool.PermissionCheckTool
+import io.github.takusan23.mobilestatuswidget.tool.MobileDataUsageTool
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
 
         // 権限がなければ権限取得画面に飛ばす
-        if (PermissionCheckTool.isGrantedUsageStatusPermission(this)) {
+        if (MobileDataUsageTool.isGrantedUsageStatusPermission(this)) {
             // 権限ありますね
             Toast.makeText(this, "権限が付与されています", Toast.LENGTH_SHORT).show()
         } else {
