@@ -9,10 +9,8 @@ import android.content.Intent
 import android.widget.RemoteViews
 import io.github.takusan23.mobilestatuswidget.R
 import io.github.takusan23.mobilestatuswidget.tool.MobileDataUsageTool
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 /**
  * Implementation of App Widget functionality.
@@ -57,9 +55,14 @@ class BandWidget : AppWidgetProvider() {
                 // 権限があるときのみ
                 if (MobileDataUsageTool.isGrantedReadPhoneAndFineLocation(context)) {
                     GlobalScope.launch {
-                        val bandPair = MobileDataUsageTool.getEarfcnOrNrarfcn(context)
-                        views.setTextViewText(R.id.widget_band_text_view, "バンド：${bandPair?.first}")
-                        views.setTextViewText(R.id.widget_band_sub_text_view, bandPair?.second.toString())
+                        val bandTriple = MobileDataUsageTool.getBandDataFromEarfcnOrNrafcn(context)
+                        views.setTextViewText(R.id.widget_band_text_view, "バンド：${bandTriple?.first}")
+                        views.setTextViewText(
+                            R.id.widget_band_sub_text_view, """
+                            ${bandTriple?.second}
+                            ${bandTriple?.third}
+                        """.trimIndent()
+                        )
                         manager.updateAppWidget(id, views)
                     }
                 } else {

@@ -2,6 +2,7 @@ package io.github.takusan23.mobilestatuswidget
 
 import android.content.Intent
 import android.os.Bundle
+import android.telephony.AccessNetworkConstants
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.github.takusan23.mobilestatuswidget.activity.PermissionRequestActivity

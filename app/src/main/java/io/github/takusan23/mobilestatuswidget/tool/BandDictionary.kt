@@ -1,7 +1,7 @@
 package io.github.takusan23.mobilestatuswidget.tool
 
 /**
- * 周波数からバンドを出す
+ * EARFCN(LTE)と、ARFCN(5G/NR)からバンドを出す
  *
  * 相対表は Wiki パクった（おい）
  *
@@ -11,96 +11,79 @@ package io.github.takusan23.mobilestatuswidget.tool
 object BandDictionary {
 
     /**
-     * Bandと周波数の相対表。LTE（4G）版
+     * バンドとEARFCN（最小値と最大値）の相対表。LTE（4G）版
      * */
     private val bandLTEList = listOf(
-        BandDictionaryData(1, 2110f, 2170f),
-        BandDictionaryData(2, 1930f, 1990f),
-        BandDictionaryData(3, 1805f, 1880f),
-        BandDictionaryData(4, 2110f, 2155f),
-        BandDictionaryData(5, 869f, 894f),
-        BandDictionaryData(7, 2620f, 2690f),
-        BandDictionaryData(8, 925f, 960f),
-        BandDictionaryData(10, 2110f, 2170f),
-        BandDictionaryData(11, 1475.9f, 1495.9f),
-        BandDictionaryData(12, 729f, 746f),
-        BandDictionaryData(13, 746f, 756f),
-        BandDictionaryData(14, 758f, 768f),
-        BandDictionaryData(17, 734f, 746f),
-        BandDictionaryData(18, 860f, 875f),
-        BandDictionaryData(19, 875f, 890f),
-        BandDictionaryData(20, 791f, 821f),
-        BandDictionaryData(21, 1495.9f, 1510.9f),
-        BandDictionaryData(22, 3510f, 3590f),
-        BandDictionaryData(24, 1525f, 1559f),
-        BandDictionaryData(25, 1930f, 1995f),
-        BandDictionaryData(26, 859f, 894f),
-        BandDictionaryData(27, 852f, 869f),
-        BandDictionaryData(28, 758f, 803f),
-        BandDictionaryData(29, 717f, 728f),
-        BandDictionaryData(30, 2350f, 2360f),
-        BandDictionaryData(31, 462.5f, 467.5f),
-        BandDictionaryData(32, 1452f, 1496f),
-        BandDictionaryData(33, 1900f, 1920f),
-        BandDictionaryData(34, 2010f, 2025f),
-        BandDictionaryData(35, 1850f, 1910f),
-        BandDictionaryData(36, 1930f, 1990f),
-        BandDictionaryData(37, 1910f, 1930f),
-        BandDictionaryData(38, 2570f, 2620f),
-        BandDictionaryData(39, 1880f, 1920f),
-        BandDictionaryData(40, 2300f, 2400f),
-        BandDictionaryData(41, 2496f, 2690f),
-        BandDictionaryData(42, 3400f, 3600f),
-        BandDictionaryData(43, 3600f, 3800f),
-        BandDictionaryData(44, 703f, 803f),
-        BandDictionaryData(45, 1447f, 1467f),
-        BandDictionaryData(46, 5150f, 5925f),
-        BandDictionaryData(47, 5855f, 5925f),
-        BandDictionaryData(48, 3550f, 3700f),
-        BandDictionaryData(49, 3550f, 3700f),
-        BandDictionaryData(50, 1432f, 1517f),
-        BandDictionaryData(51, 1427f, 1432f),
-        BandDictionaryData(52, 3300f, 3400f),
-        BandDictionaryData(65, 1920f, 2010f),
-        BandDictionaryData(66, 1710f, 1780f),
+        BandDictionaryData(1, 0, 599),
+        BandDictionaryData(2, 600, 1199),
+        BandDictionaryData(3, 1200, 1949),
+        BandDictionaryData(4, 1950, 2399),
+        BandDictionaryData(5, 2400, 2649),
+        BandDictionaryData(6, 2650, 2749),
+        BandDictionaryData(7, 2750, 3449),
+        BandDictionaryData(8, 3450, 3799),
+        BandDictionaryData(9, 3800, 4149),
+        BandDictionaryData(10, 4150, 4749),
+        BandDictionaryData(11, 4750, 4949),
+        BandDictionaryData(12, 5010, 5179),
+        BandDictionaryData(13, 5180, 5279),
+        BandDictionaryData(14, 5280, 5279),
+        BandDictionaryData(17, 5730, 5849),
+        BandDictionaryData(18, 5850, 5999),
+        BandDictionaryData(19, 6000, 6149),
+        BandDictionaryData(20, 6150, 6449),
+        BandDictionaryData(21, 6450, 6599),
+        BandDictionaryData(22, 6600, 7399),
+        BandDictionaryData(23, 7500, 7699),
+        BandDictionaryData(24, 7700, 8039),
+        BandDictionaryData(25, 8040, 8689),
+        BandDictionaryData(26, 8690, 9039),
+        BandDictionaryData(27, 9040, 9209),
+        BandDictionaryData(28, 9210, 9659),
+        BandDictionaryData(29, 9660, 9769),
+        BandDictionaryData(30, 9770, 9869),
+        BandDictionaryData(31, 9870, 9919),
+        BandDictionaryData(32, 9920, 10359),
+        BandDictionaryData(65, 65536, 66435),
+        BandDictionaryData(66, 66436, 67335),
+        BandDictionaryData(67, 67336, 67535),
+        BandDictionaryData(68, 67536, 67835),
+        BandDictionaryData(69, 67836, 68335),
+        BandDictionaryData(70, 68336, 68585),
+        BandDictionaryData(71, 68586, 68935),
+        BandDictionaryData(252, 255144, 256143),
+        BandDictionaryData(255, 261519, 262143),
     )
 
     /**
-     * Bandと周波数の相対表。NR（5G）版
+     * バンドとARFCNの相対表。NR（5G）版
      * */
     val bandNRList = listOf(
-        BandDictionaryData(1, 2110f, 2170f),
-        BandDictionaryData(2, 1930f, 1990f),
-        BandDictionaryData(3, 1805f, 1880f),
-        BandDictionaryData(5, 869f, 894f),
-        BandDictionaryData(7, 2620f, 2690f),
-        BandDictionaryData(8, 925f, 960f),
-        BandDictionaryData(12, 729f, 746f),
-        BandDictionaryData(14, 758f, 768f),
-        BandDictionaryData(18, 860f, 875f),
-        BandDictionaryData(20, 791f, 821f),
-        BandDictionaryData(25, 1930f, 1995f),
-        BandDictionaryData(28, 758f, 803f),
-        BandDictionaryData(29, 717f, 728f),
-        BandDictionaryData(30, 2350f, 2360f),
-        BandDictionaryData(34, 2010f, 2025f),
-        BandDictionaryData(38, 2570f, 2620f),
-        BandDictionaryData(39, 1880f, 1920f),
-        BandDictionaryData(40, 2300f, 2400f),
-        BandDictionaryData(41, 2496f, 2690f),
-        BandDictionaryData(48, 3550f, 3700f),
-        BandDictionaryData(50, 1432f, 1517f),
-        BandDictionaryData(51, 1427f, 1432f),
-        BandDictionaryData(65, 2110f, 2200f),
-        BandDictionaryData(66, 2110f, 2200f),
-        BandDictionaryData(70, 1995f, 2020f),
-        BandDictionaryData(71, 617f, 652f),
-        BandDictionaryData(74, 1475f, 1518f),
-        BandDictionaryData(75, 1432f, 1517f),
-        BandDictionaryData(76, 1427f, 1432f),
-        BandDictionaryData(77, 3300f, 4200f),
-        BandDictionaryData(78, 3300f, 3800f),
-        BandDictionaryData(79, 4400f, 5000f),
+        BandDictionaryData(1, 422000, 434000),
+        BandDictionaryData(2, 386000, 398000),
+        BandDictionaryData(3, 361000, 376000),
+        BandDictionaryData(5, 173800, 178800),
+        BandDictionaryData(7, 524000, 538000),
+        BandDictionaryData(8, 185000, 192000),
+        BandDictionaryData(20, 158200, 164200),
+        BandDictionaryData(28, 151600, 160600),
+        BandDictionaryData(38, 514000, 524000),
+        BandDictionaryData(41, 499200, 537999),
+        BandDictionaryData(50, 286400, 303400),
+        BandDictionaryData(51, 285400, 286400),
+        BandDictionaryData(66, 422000, 440000),
+        BandDictionaryData(70, 399000, 404000),
+        BandDictionaryData(71, 123400, 130400),
+        BandDictionaryData(74, 295000, 303600),
+        BandDictionaryData(75, 286400, 303400),
+        BandDictionaryData(76, 285400, 286400),
+        BandDictionaryData(77, 620000, 680000),
+        BandDictionaryData(78, 620000, 653333),
+        BandDictionaryData(79, 693334, 733333),
+        // 5G ミリ波
+        BandDictionaryData(257, 2054167, 2104166),
+        BandDictionaryData(258, 2016667, 2070833),
+        BandDictionaryData(260, 2229167, 2279166),
     )
 
     /**
@@ -108,29 +91,38 @@ object BandDictionary {
      *
      * 1850 なら band 3
      * */
-    fun toLTEBand(earfcn: Int): Int {
+    fun toLTEBand(earfcn: Int): String {
         return bandLTEList.find { bandDictionaryData ->
             // 範囲内にあれば
-            earfcn.toFloat() in (bandDictionaryData.dlMin..bandDictionaryData.dlMax)
-        }?.bandNum ?: 0
+            earfcn in (bandDictionaryData.dlMin..bandDictionaryData.dlMax)
+        }?.bandNum.toString()
     }
 
     /**
-     * 周波数からバンドを出す。5G版
+     * 周波数からバンドを出す。5G版。NRは「New Radio」らしい
+     *
+     * n3 とか返ってくると思う
      *
      * 実機を持っていないので知らない
      * */
-    fun toNRBand(nrarfcn: Int): Int {
-        return bandNRList.find { bandDictionaryData ->
+    fun toNRBand(nrarfcn: Int): String {
+        return "n" + bandNRList.find { bandDictionaryData ->
             // 範囲内にあれば
-            nrarfcn.toFloat() in (bandDictionaryData.dlMin..bandDictionaryData.dlMax)
-        }?.bandNum ?: 0
+            nrarfcn in (bandDictionaryData.dlMin..bandDictionaryData.dlMax)
+        }?.bandNum.toString()
     }
 
 }
 
+/**
+ * バンド情報。
+ *
+ * @param bandNum バンド名
+ * @param dlMin earfcnの範囲。最小値
+ * @param dlMax earfcnの範囲。最大値
+ * */
 data class BandDictionaryData(
     val bandNum: Int,
-    val dlMin: Float,
-    val dlMax: Float,
+    val dlMin: Int,
+    val dlMax: Int,
 )

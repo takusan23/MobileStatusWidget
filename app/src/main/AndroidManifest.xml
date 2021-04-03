@@ -3,7 +3,10 @@
     package="io.github.takusan23.mobilestatuswidget">
 
     <!-- 使用状況へのアクセス 権限 -->
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" /> <!-- バンド取得 -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+
+    <!-- バンド取得 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
