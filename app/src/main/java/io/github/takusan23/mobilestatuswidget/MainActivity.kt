@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         // 権限がなければ権限取得画面に飛ばす
         if (MobileDataUsageTool.isGrantedUsageStatusPermission(this) && MobileDataUsageTool.isGrantedReadPhoneAndFineLocation(this)) {
             // 権限ありますね
-            Toast.makeText(this, "権限が付与されています", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(this, "権限が付与されています", Toast.LENGTH_SHORT).show()
         } else {
             // 権限ください画面
             Intent(this, PermissionRequestActivity::class.java).let { intent -> startActivity(intent) }
