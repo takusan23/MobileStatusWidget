@@ -2,14 +2,12 @@ package io.github.takusan23.mobilestatuswidget
 
 import android.content.Intent
 import android.os.Bundle
-import android.telephony.AccessNetworkConstants
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import io.github.takusan23.mobilestatuswidget.activity.LicenseActivity
 import io.github.takusan23.mobilestatuswidget.activity.PermissionRequestActivity
 import io.github.takusan23.mobilestatuswidget.databinding.ActivityMainBinding
 import io.github.takusan23.mobilestatuswidget.tool.MobileDataUsageTool
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +26,11 @@ class MainActivity : AppCompatActivity() {
             // 権限ください画面
             Intent(this, PermissionRequestActivity::class.java).let { intent -> startActivity(intent) }
             return
+        }
+
+        // ライセンス
+        viewBinding.activityMainLicenseButton.setOnClickListener {
+            startActivity(Intent(this, LicenseActivity::class.java))
         }
 
     }

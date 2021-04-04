@@ -75,14 +75,17 @@ object MobileDataUsageTool {
         val networkStatsManager = context.getSystemService(Context.NETWORK_STATS_SERVICE) as NetworkStatsManager
         // 集計開始の日付その月の最初の日
         val calendar = Calendar.getInstance()
+        // 今日の日付
+        val currentDate = calendar.get(Calendar.DAY_OF_MONTH)
+        // 月初めに移動
         val startCalendar = calendar.apply {
             set(Calendar.DAY_OF_MONTH, 1)
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
         }
-        // 今日の日付
-        val currentDate = calendar.get(Calendar.DATE)
+        // 通信量を足していくので
+        var addMobileDataUsage = 0L
         repeat(currentDate) {
             // 収集開始
             val startUnixTimeMs = startCalendar.time.time
@@ -93,7 +96,8 @@ object MobileDataUsageTool {
             // 問い合わせる
             val bucket = networkStatsManager.querySummaryForDevice(ConnectivityManager.TYPE_MOBILE, null, startUnixTimeMs, endUnixTime)
             // 配列に入れる
-            mobileDataUsageList.add(bucket.txBytes + bucket.rxBytes)
+            addMobileDataUsage += bucket.txBytes + bucket.rxBytes
+            mobileDataUsageList.add(addMobileDataUsage)
         }
         return mobileDataUsageList
     }

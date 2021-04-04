@@ -3,10 +3,7 @@ package io.github.takusan23.mobilestatuswidget.tool
 /**
  * EARFCN(LTE)と、ARFCN(5G/NR)からバンドを出す
  *
- * 相対表は Wiki パクった（おい）
- *
- * https://ja.wikipedia.org/wiki/LTEバンド#周波数帯域、チャネルの帯域幅
- *
+ * LTE band EARFCN table 等で検索検索
  * */
 object BandDictionary {
 
@@ -58,7 +55,7 @@ object BandDictionary {
     /**
      * バンドとARFCNの相対表。NR（5G）版
      * */
-    val bandNRList = listOf(
+    private val bandNRList = listOf(
         BandDictionaryData(1, 422000, 434000),
         BandDictionaryData(2, 386000, 398000),
         BandDictionaryData(3, 361000, 376000),

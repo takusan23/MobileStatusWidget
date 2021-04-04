@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MobileStatusWidget</string>
+    <string name="permission_title">権限をください</string>
+    <string name="permission_description">バンド取得や通信量の取得で権限が必要なので、許可をお願いします。</string>
+    <string name="permission_request_button">権限を取得</string>
+    <string name="permission_request_button_second">権限を取得（その２）</string>
+    <string name="permission_granted">権限が付与されました。</string>
+    <string name="permission_setting_finish">設定が終わりました。</string>
+    <string name="widget_mobile_data_usage_graph">"グラフ付き通信量表示 "</string>
+    <string name="widget_band">バンド表示</string>
+    <string name="widget_mobile_data_usage">通信量表示</string>
+    <string name="license">ライセンス</string>
+    <string name="guide">
+ホーム画面何もない所を長押しすると、ウイジェットを追加することが出来ます。\n
+ウイジェットのアイコンを押すことで最新の情報に更新されます。
+    </string>
+    <string name="widget_mobile_data_used">使用済み</string>
+    <string name="permission_not_granted">権限がありません</string>
+</resources>

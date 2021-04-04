@@ -4,18 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import io.github.takusan23.mobilestatuswidget.R
 import io.github.takusan23.mobilestatuswidget.databinding.ActivityPermissionRequestBinding
 import io.github.takusan23.mobilestatuswidget.tool.MobileDataUsageTool
 
+/**
+ * 権限をお願いする画面
+ * */
 class PermissionRequestActivity : AppCompatActivity() {
 
     /** 権限コールバック */
     private val permissionCallBack = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { resultList ->
         if (resultList.all { entry -> entry.value }) {
-            Toast.makeText(this, "権限を取得しました", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.permission_granted), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -41,7 +44,7 @@ class PermissionRequestActivity : AppCompatActivity() {
         super.onResume()
         if (MobileDataUsageTool.isGrantedUsageStatusPermission(this) && MobileDataUsageTool.isGrantedReadPhoneAndFineLocation(this)) {
             // 終わった。戻る
-            Toast.makeText(this, "設定が終わりました", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.permission_setting_finish), Toast.LENGTH_SHORT).show()
             finish()
         }
     }

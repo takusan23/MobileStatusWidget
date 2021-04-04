@@ -13,7 +13,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 /**
- * Implementation of App Widget functionality.
+ * バンドを表示するウイジェット
  */
 class BandWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
@@ -56,7 +56,7 @@ class BandWidget : AppWidgetProvider() {
                 if (MobileDataUsageTool.isGrantedReadPhoneAndFineLocation(context)) {
                     GlobalScope.launch {
                         val bandTriple = MobileDataUsageTool.getBandDataFromEarfcnOrNrafcn(context)
-                        views.setTextViewText(R.id.widget_band_text_view, "バンド：${bandTriple?.first}")
+                        views.setTextViewText(R.id.widget_band_text_view, "Band ${bandTriple?.first}")
                         views.setTextViewText(
                             R.id.widget_band_sub_text_view, """
                             ${bandTriple?.second}
@@ -66,7 +66,7 @@ class BandWidget : AppWidgetProvider() {
                         manager.updateAppWidget(id, views)
                     }
                 } else {
-                    views.setTextViewText(R.id.widget_band_text_view, "権限がありません")
+                    views.setTextViewText(R.id.widget_band_text_view, context.getString(R.string.permission_not_granted))
                     manager.updateAppWidget(id, views)
                 }
             }

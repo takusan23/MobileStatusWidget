@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.github.takusan23.mobilestatuswidget">
-
     <!-- 使用状況へのアクセス 権限 -->
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
-
-    <!-- バンド取得 -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" /> <!-- バンド取得 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -18,7 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileStatusWidget">
 
-        <receiver android:name=".widget.BandWidget" android:label="バンド表示">
+        <receiver
+            android:name=".widget.MobileDataUsageGraphWidget"
+            android:label="@string/widget_mobile_data_usage_graph">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/mobile_data_usage_graph_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.BandWidget"
+            android:label="@string/widget_band">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -27,8 +37,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/band_widget_info" />
         </receiver>
-
-        <receiver android:name=".widget.MobileDataUsageWidget"  android:label="通信量表示">
+        <receiver
+            android:name=".widget.MobileDataUsageWidget"
+            android:label="@string/widget_mobile_data_usage">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -40,7 +51,12 @@
 
         <activity
             android:name=".activity.PermissionRequestActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="@string/permission_title" />
+        <activity
+            android:name=".activity.LicenseActivity"
+            android:exported="true"
+            android:label="@string/license" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

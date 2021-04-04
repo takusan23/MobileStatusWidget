@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">MobileStatusWidget</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+    <string name="permission_title">Please give me authority</string>
+    <string name="permission_description">Permission is required to acquire bands and traffic, so please give us permission.</string>
+    <string name="permission_request_button">Get authority</string>
+    <string name="permission_request_button_second">Get the authority (Part 2)</string>
+    <string name="permission_granted">Privilege has been granted.</string>
+    <string name="permission_setting_finish">Setting is complete.</string>
+    <string name="widget_mobile_data_usage_graph">Traffic display with graph</string>
+    <string name="widget_band">Band display</string>
+    <string name="widget_mobile_data_usage">Traffic display</string>
+    <string name="license">License</string>
+    <string name="guide">
+You can add a widget by long-pressing the home screen where there is nothing. \n
+Press the widget icon to update to the latest information.
+    </string>
+    <string name="widget_mobile_data_used">Already used</string>
+    <string name="permission_not_granted">Not authorized</string>
 </resources>
