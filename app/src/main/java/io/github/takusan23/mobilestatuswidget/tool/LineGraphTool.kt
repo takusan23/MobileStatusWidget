@@ -9,6 +9,7 @@ import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import io.github.takusan23.mobilestatuswidget.R
 
 /**
  * 折れ線グラフを作る
@@ -26,7 +27,9 @@ object LineGraphTool {
             .getMobileDataUsageDayListFromCurrentMonth(context)
             .mapIndexed { index, usage -> BarEntry(index + 1f, (usage / 1024f / 1024f / 1024f)) } // 棒グラフのデータ
         // データを作る
-        val dataSet = BarDataSet(mobileDataUsageList, "モバイルデータ使用量")
+        val dataSet = BarDataSet(mobileDataUsageList, "モバイルデータ使用量").apply {
+            color = context.getColor(R.color.primary)
+        }
         // Bitmapを返す
         val barChart = BarChart(context).apply {
             // 折れ線グラフを作る
@@ -46,7 +49,6 @@ object LineGraphTool {
             axisLeft.isEnabled = false
             axisRight.isEnabled = false
             dataSet.setDrawValues(false)
-
         }
         // Bitmap作成。Chart側でもBitmap生成関数が用意されてるんだけど、透明が扱えないため
         val bitmap = Bitmap.createBitmap(barChart.width, barChart.height, Bitmap.Config.ARGB_8888)

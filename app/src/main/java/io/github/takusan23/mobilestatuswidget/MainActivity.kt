@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import io.github.takusan23.mobilestatuswidget.activity.LicenseActivity
 import io.github.takusan23.mobilestatuswidget.activity.PermissionRequestActivity
 import io.github.takusan23.mobilestatuswidget.databinding.ActivityMainBinding
@@ -31,6 +32,11 @@ class MainActivity : AppCompatActivity() {
         // ライセンス
         viewBinding.activityMainLicenseButton.setOnClickListener {
             startActivity(Intent(this, LicenseActivity::class.java))
+        }
+
+        // ソースコード
+        viewBinding.activityMainSourceCodeButton.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, "https://github.com/takusan23/MobileStatusWidget".toUri()))
         }
 
     }

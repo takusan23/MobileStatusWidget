@@ -16,4 +16,5 @@ Press the widget icon to update to the latest information.
     </string>
     <string name="widget_mobile_data_used">Already used</string>
     <string name="permission_not_granted">Not authorized</string>
+    <string name="source_code">Source code</string>
 </resources>
