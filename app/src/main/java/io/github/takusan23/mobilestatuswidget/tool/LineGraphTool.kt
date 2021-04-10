@@ -6,9 +6,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.view.View
 import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.data.*
 import io.github.takusan23.mobilestatuswidget.R
 
 /**
@@ -27,13 +26,16 @@ object LineGraphTool {
             .getMobileDataUsageDayListFromCurrentMonth(context)
             .mapIndexed { index, usage -> BarEntry(index + 1f, (usage / 1024f / 1024f / 1024f)) } // 棒グラフのデータ
         // データを作る
-        val dataSet = BarDataSet(mobileDataUsageList, "モバイルデータ使用量").apply {
-            color = context.getColor(R.color.primary)
+        val dataSet = LineDataSet(mobileDataUsageList, "モバイルデータ使用量").also {lineDataSet->
+            lineDataSet.color = context.getColor(R.color.primary)
+            lineDataSet.lineWidth = 75f
+            lineDataSet.setDrawValues(false)
+            lineDataSet.setDrawCircles(false)
         }
         // Bitmapを返す
-        val barChart = BarChart(context).apply {
+        val barChart = LineChart(context).apply {
             // 折れ線グラフを作る
-            data = BarData(dataSet)
+            data = LineData(dataSet)
             measure(
                 View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY)
@@ -42,13 +44,13 @@ object LineGraphTool {
             // 背景透明化
             setBackgroundColor(Color.TRANSPARENT)
             setDrawGridBackground(false)
+
             // いらないの消していく
             description.isEnabled = false
             legend.isEnabled = false
             xAxis.isEnabled = false
             axisLeft.isEnabled = false
             axisRight.isEnabled = false
-            dataSet.setDrawValues(false)
         }
         // Bitmap作成。Chart側でもBitmap生成関数が用意されてるんだけど、透明が扱えないため
         val bitmap = Bitmap.createBitmap(barChart.width, barChart.height, Bitmap.Config.ARGB_8888)
