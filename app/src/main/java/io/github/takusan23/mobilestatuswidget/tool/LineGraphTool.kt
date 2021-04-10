@@ -26,19 +26,20 @@ object LineGraphTool {
             .getMobileDataUsageDayListFromCurrentMonth(context)
             .mapIndexed { index, usage -> BarEntry(index + 1f, (usage / 1024f / 1024f / 1024f)) } // 棒グラフのデータ
         // データを作る
-        val dataSet = LineDataSet(mobileDataUsageList, "モバイルデータ使用量").also {lineDataSet->
+        val dataSet = LineDataSet(mobileDataUsageList, "モバイルデータ使用量").also { lineDataSet ->
             lineDataSet.color = context.getColor(R.color.primary)
-            lineDataSet.lineWidth = 75f
-            lineDataSet.setDrawValues(false)
             lineDataSet.setDrawCircles(false)
+            lineDataSet.setDrawValues(false)
+            lineDataSet.lineWidth = 3f
+            lineDataSet.mode = LineDataSet.Mode.HORIZONTAL_BEZIER // なめらかな線
         }
         // Bitmapを返す
         val barChart = LineChart(context).apply {
             // 折れ線グラフを作る
             data = LineData(dataSet)
             measure(
-                View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY)
+                View.MeasureSpec.makeMeasureSpec(500, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(500, View.MeasureSpec.EXACTLY)
             )
             layout(0, 0, measuredWidth, measuredHeight)
             // 背景透明化
