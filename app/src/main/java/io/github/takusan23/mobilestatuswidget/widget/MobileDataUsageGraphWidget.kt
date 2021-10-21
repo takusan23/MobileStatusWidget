@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.widget.RemoteViews
 import io.github.takusan23.mobilestatuswidget.R
 import io.github.takusan23.mobilestatuswidget.tool.LineGraphTool
@@ -47,8 +48,12 @@ class MobileDataUsageGraphWidget : AppWidgetProvider() {
                 // RemoteView
                 val views = RemoteViews(context.packageName, R.layout.widget_mobile_data_usage_graph)
                 // 更新。このクラスにブロードキャストを送信する
-                val pendingIntent = PendingIntent.getBroadcast(context, 128, Intent(context, MobileDataUsageGraphWidget::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
-                views.setOnClickPendingIntent(R.id.widget_mobile_data_usage_graph_update_image_view, pendingIntent)
+                val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    PendingIntent.getBroadcast(context, 128, Intent(context, MobileDataUsageGraphWidget::class.java), PendingIntent.FLAG_MUTABLE)
+                } else {
+                    PendingIntent.getBroadcast(context, 128, Intent(context, MobileDataUsageGraphWidget::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+                }
+                views.setOnClickPendingIntent(R.id.widget_mobile_data_usage_graph_update_button, pendingIntent)
                 // 権限があるときのみ
                 if (MobileDataUsageTool.isGrantedUsageStatusPermission(context)) {
                     // グラフ作成
@@ -56,13 +61,12 @@ class MobileDataUsageGraphWidget : AppWidgetProvider() {
                     views.setImageViewBitmap(R.id.widget_mobile_data_usage_graph_image_view, bitmap)
                     // 使用量も出す
                     val usageGB = String.format("%.2f", MobileDataUsageTool.getMobileDataUsageFromCurrentMonth(context) / 1024f / 1024f / 1024f)
-                    views.setTextViewText(R.id.widget_mobile_data_usage_graph_text_view, "$usageGB GB")
+                    views.setTextViewText(R.id.widget_mobile_data_usage_graph_update_button, "$usageGB GB")
                     manager.updateAppWidget(id, views)
                 } else {
-                    views.setTextViewText(R.id.widget_mobile_data_usage_graph_text_view, context.getString(R.string.permission_not_granted))
+                    views.setTextViewText(R.id.widget_mobile_data_usage_graph_update_button, context.getString(R.string.permission_not_granted))
                     manager.updateAppWidget(id, views)
                 }
-
             }
         }
     }

@@ -4,22 +4,23 @@
 
     <TextView
         android:id="@+id/widget_band_text_view"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="30dp"
         android:background="@drawable/widget_background"
         android:gravity="center"
-        android:padding="20dp"
+        android:padding="5dp"
         android:text="Band null"
-        android:textColor="@color/dark"
+        android:textColor="@android:color/system_accent1_500"
         android:textSize="18sp" />
 
     <ImageButton
         android:id="@+id/widget_band_update_button"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
         android:layout_gravity="start|bottom"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
@@ -27,12 +28,12 @@
         android:background="@drawable/widget_rounded_button_background"
         android:clickable="true"
         android:contentDescription="update"
-        android:drawableTint="#ffffff"
         android:elevation="0dp"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
+        android:tint="@android:color/system_accent1_100"
         android:src="@drawable/ic_baseline_signal_cellular_alt_24"
         android:translationZ="0dp" />
 
@@ -42,16 +43,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|top"
-        android:layout_marginTop="0dp"
+        android:layout_margin="5dp"
         android:background="@drawable/widget_rounded_button_background"
-        android:drawableStart="@drawable/ic_baseline_4g_mobiledata_24"
-        android:drawableTint="#ffffff"
+        android:drawableTop="@drawable/ic_baseline_4g_mobiledata_24"
+        android:drawableTint="@android:color/system_accent1_100"
         android:elevation="0dp"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        android:text="Carrier name"
-        android:textAllCaps="false"
-        android:textColor="#ffffff"
+        android:text="name"
+        android:textColor="@android:color/system_accent1_100"
         android:translationZ="0dp" />
 
 </FrameLayout>

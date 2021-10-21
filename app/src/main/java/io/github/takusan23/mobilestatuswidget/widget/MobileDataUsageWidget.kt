@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.widget.RemoteViews
 import io.github.takusan23.mobilestatuswidget.R
 import io.github.takusan23.mobilestatuswidget.tool.MobileDataUsageTool
@@ -49,7 +50,11 @@ class MobileDataUsageWidget : AppWidgetProvider() {
                 // RemoteView
                 val views = RemoteViews(context.packageName, R.layout.widget_mobile_data_usage)
                 // 更新。このクラスにブロードキャストを送信する
-                val pendingIntent = PendingIntent.getBroadcast(context, 25, Intent(context, MobileDataUsageWidget::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+                val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    PendingIntent.getBroadcast(context, 25, Intent(context, MobileDataUsageWidget::class.java), PendingIntent.FLAG_MUTABLE)
+                } else {
+                    PendingIntent.getBroadcast(context, 25, Intent(context, MobileDataUsageWidget::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+                }
                 views.setOnClickPendingIntent(R.id.widget_mobile_data_usage_image_view, pendingIntent)
                 // 権限があるときのみ
                 if (MobileDataUsageTool.isGrantedUsageStatusPermission(context)) {

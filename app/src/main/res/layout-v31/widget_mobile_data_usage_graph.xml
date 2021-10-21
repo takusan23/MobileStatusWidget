@@ -8,8 +8,8 @@
     <ImageView
         android:id="@+id/widget_mobile_data_usage_graph_image_view"
         android:layout_width="match_parent"
+        android:layout_gravity="top"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_weight="1"
         android:padding="5dp" />
 
@@ -23,14 +23,14 @@
         android:background="@drawable/widget_rounded_button_background"
         android:clickable="true"
         android:drawableStart="@drawable/refresh_black_24dp"
-        android:drawableTint="#ffffff"
+        android:drawableTint="@android:color/system_accent1_100"
         android:elevation="0dp"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:text="10.0GB"
-        android:textColor="#ffffff"
+        android:textColor="@android:color/system_accent1_100"
         android:translationZ="0dp" />
 
 </FrameLayout>

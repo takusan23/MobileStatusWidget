@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Build
 import android.view.View
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
@@ -27,7 +28,11 @@ object LineGraphTool {
             .mapIndexed { index, usage -> BarEntry(index + 1f, (usage / 1024f / 1024f / 1024f)) } // 棒グラフのデータ
         // データを作る
         val dataSet = LineDataSet(mobileDataUsageList, "モバイルデータ使用量").also { lineDataSet ->
-            lineDataSet.color = context.getColor(R.color.primary)
+            lineDataSet.color = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                context.getColor(android.R.color.system_accent1_500)
+            } else {
+                context.getColor(R.color.dark)
+            }
             lineDataSet.setDrawCircles(false)
             lineDataSet.setDrawValues(false)
             lineDataSet.lineWidth = 3f

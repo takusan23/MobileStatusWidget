@@ -13,13 +13,13 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:padding="5dp"
         android:src="@drawable/sim_card_black_24dp"
-        android:tint="#ffffff" />
+        android:tint="@android:color/system_accent1_100" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="5dp">
 
@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:textColor="@android:color/system_accent1_500"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -35,7 +36,7 @@
             android:id="@+id/widget_mobile_data_usage_sub_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:textColor="@android:color/system_accent1_500" />
     </LinearLayout>
 
 </LinearLayout>
