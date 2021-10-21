@@ -49,7 +49,7 @@ class MobileDataUsageGraphWidget : AppWidgetProvider() {
                 val views = RemoteViews(context.packageName, R.layout.widget_mobile_data_usage_graph)
                 // 更新。このクラスにブロードキャストを送信する
                 val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    PendingIntent.getBroadcast(context, 128, Intent(context, MobileDataUsageGraphWidget::class.java), PendingIntent.FLAG_MUTABLE)
+                    PendingIntent.getBroadcast(context, 128, Intent(context, MobileDataUsageGraphWidget::class.java), PendingIntent.FLAG_IMMUTABLE)
                 } else {
                     PendingIntent.getBroadcast(context, 128, Intent(context, MobileDataUsageGraphWidget::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
                 }

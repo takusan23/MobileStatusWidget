@@ -53,7 +53,7 @@ class BandWidget : AppWidgetProvider() {
                 val views = RemoteViews(context.packageName, R.layout.widget_band)
                 // 更新。このクラスにブロードキャストを送信する
                 val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    PendingIntent.getBroadcast(context, 50, Intent(context, BandWidget::class.java), PendingIntent.FLAG_MUTABLE)
+                    PendingIntent.getBroadcast(context, 50, Intent(context, BandWidget::class.java), PendingIntent.FLAG_IMMUTABLE)
                 } else {
                     PendingIntent.getBroadcast(context, 50, Intent(context, BandWidget::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
                 }
