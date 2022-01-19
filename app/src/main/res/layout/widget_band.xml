@@ -1,19 +1,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/widget_band_text_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_margin="30dp"
         android:background="@drawable/widget_background"
         android:gravity="center"
-        android:padding="20dp"
-        android:text="Band null"
         android:textColor="@color/dark"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        tools:text="Band null" />
 
     <ImageButton
         android:id="@+id/widget_band_update_button"
@@ -49,9 +49,9 @@
         android:elevation="0dp"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        android:text="Carrier name"
         android:textAllCaps="false"
         android:textColor="#ffffff"
-        android:translationZ="0dp" />
+        android:translationZ="0dp"
+        tools:text="Carrier name" />
 
 </FrameLayout>

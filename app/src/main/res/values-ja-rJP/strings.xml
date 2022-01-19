@@ -18,4 +18,5 @@
     <string name="widget_mobile_data_used">使用済み</string>
     <string name="permission_not_granted">権限がありません</string>
     <string name="source_code">ソースコード</string>
+    <string name="widget_update_description">ウィジェット内のアイコンを押すことで更新ができます</string>
 </resources>
