@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.lifecycle.lifecycleScope
 import io.github.takusan23.mobilestatuswidget.activity.LicenseActivity
 import io.github.takusan23.mobilestatuswidget.activity.PermissionRequestActivity
 import io.github.takusan23.mobilestatuswidget.databinding.ActivityMainBinding
 import io.github.takusan23.mobilestatuswidget.tool.MobileDataUsageTool
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 

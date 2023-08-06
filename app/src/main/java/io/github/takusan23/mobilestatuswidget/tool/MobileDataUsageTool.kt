@@ -1,6 +1,5 @@
 package io.github.takusan23.mobilestatuswidget.tool
 
-import android.Manifest
 import android.app.AppOpsManager
 import android.app.usage.NetworkStatsManager
 import android.content.Context
@@ -26,7 +25,7 @@ object MobileDataUsageTool {
      * */
     fun isGrantedUsageStatusPermission(context: Context): Boolean {
         val appOpsManager = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        val mode = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+        val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             // Android 10 以降
             appOpsManager.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), context.packageName)
         } else {
@@ -110,7 +109,7 @@ object MobileDataUsageTool {
      * @return 一個目はバンド、二個目は周波数チャンネル番号、三番目はキャリア名（Android 9以降のみ対応）
      * */
     suspend fun getBandDataFromEarfcnOrNrafcn(context: Context): Triple<String, Int, String>? {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return null
+        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return null
         val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         // Android Q 以降は最新の値返ってこないらしい（キャッシュを返すため、リクエストが必要）のでコルーチンで解決
         val callIdentity: CellInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -121,7 +120,7 @@ object MobileDataUsageTool {
                         if (cellInfoList.isEmpty()) {
                             it.resume(null)
                         } else {
-                            val cellInfo = cellInfoList[0]
+                            val cellInfo = cellInfoList.filterIsInstance<CellInfoNr>().firstOrNull() ?: cellInfoList.firstOrNull()
                             it.resume(cellInfo)
                         }
                     }
