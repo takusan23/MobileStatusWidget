@@ -112,7 +112,7 @@ object MobileDataUsageTool {
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return null
         val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         // Android Q 以降は最新の値返ってこないらしい（キャッシュを返すため、リクエストが必要）のでコルーチンで解決
-        val callIdentity: CellInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val cellIdentity: CellInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             // コルーチンでコールバック形式も同期っぽくかける
             suspendCoroutine {
                 telephonyManager.requestCellInfoUpdate(context.mainExecutor, object : TelephonyManager.CellInfoCallback() {
@@ -135,33 +135,38 @@ object MobileDataUsageTool {
             }
         } ?: return null
 
+        // フォールバック用キャリア名
+        val fallbackCarrierName = telephonyManager.networkOperatorName
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             // Android 10 以降。5Gに対応
             return when {
                 // LTE
-                callIdentity is CellInfoLte -> {
-                    val earfcn = callIdentity.cellIdentity.earfcn
-                    Triple(BandDictionary.toLTEBand(earfcn), earfcn, callIdentity.cellIdentity.operatorAlphaShort.toString())
+                cellIdentity is CellInfoLte -> {
+                    val earfcn = cellIdentity.cellIdentity.earfcn
+                    Triple(BandDictionary.toLteBand(earfcn), earfcn, cellIdentity.cellIdentity.operatorAlphaShort?.ifEmpty { fallbackCarrierName }.toString())
                 }
                 // 5G (NR)
-                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) && callIdentity is CellInfoNr -> {
-                    val nrarfcn = (callIdentity.cellIdentity as CellIdentityNr).nrarfcn
-                    Triple(BandDictionary.toNRBand(nrarfcn), nrarfcn, callIdentity.cellIdentity.operatorAlphaShort.toString())
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) && cellIdentity is CellInfoNr -> {
+                    val nrarfcn = (cellIdentity.cellIdentity as CellIdentityNr).nrarfcn
+                    Triple(BandDictionary.toNrBand(nrarfcn), nrarfcn, cellIdentity.cellIdentity.operatorAlphaShort?.ifEmpty { fallbackCarrierName }.toString())
                 }
+
                 else -> null
             }
         } else {
             // Android 9 以前
-            return when (callIdentity) {
+            return when (cellIdentity) {
                 // LTE
                 is CellInfoLte -> {
-                    val earfcn = callIdentity.cellIdentity.earfcn
+                    val earfcn = cellIdentity.cellIdentity.earfcn
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        Triple(BandDictionary.toLTEBand(earfcn), earfcn, callIdentity.cellIdentity.operatorAlphaShort.toString())
+                        Triple(BandDictionary.toLteBand(earfcn), earfcn, cellIdentity.cellIdentity.operatorAlphaShort?.ifEmpty { fallbackCarrierName }.toString())
                     } else {
-                        Triple(BandDictionary.toLTEBand(earfcn), earfcn, "")
+                        Triple(BandDictionary.toLteBand(earfcn), earfcn, "")
                     }
                 }
+
                 else -> null
             }
         }
