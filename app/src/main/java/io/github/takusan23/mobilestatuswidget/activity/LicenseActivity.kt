@@ -1,7 +1,11 @@
 package io.github.takusan23.mobilestatuswidget.activity
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import io.github.takusan23.mobilestatuswidget.databinding.ActivityLicenseBinding
 
 /**
@@ -13,6 +17,7 @@ class LicenseActivity : AppCompatActivity() {
     private val viewBinding by lazy { ActivityLicenseBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
@@ -45,5 +50,18 @@ class LicenseActivity : AppCompatActivity() {
 
         """.trimIndent()
 
+        // EdgeToEdge
+        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root) { root, insets ->
+            val systemInsets = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            root.updatePadding(
+                left = systemInsets.left,
+                top = systemInsets.top,
+                right = systemInsets.right,
+                bottom = systemInsets.bottom
+            )
+            insets
+        }
     }
 }

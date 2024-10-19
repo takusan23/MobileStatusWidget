@@ -4,8 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import io.github.takusan23.mobilestatuswidget.R
 import io.github.takusan23.mobilestatuswidget.databinding.ActivityPermissionRequestBinding
 import io.github.takusan23.mobilestatuswidget.tool.MobileDataUsageTool
@@ -26,6 +30,7 @@ class PermissionRequestActivity : AppCompatActivity() {
     private val viewBinding by lazy { ActivityPermissionRequestBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
@@ -38,6 +43,19 @@ class PermissionRequestActivity : AppCompatActivity() {
             startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
         }
 
+        // EdgeToEdge
+        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.root) { root, insets ->
+            val systemInsets = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            root.updatePadding(
+                left = systemInsets.left,
+                top = systemInsets.top,
+                right = systemInsets.right,
+                bottom = systemInsets.bottom
+            )
+            insets
+        }
     }
 
     override fun onResume() {
