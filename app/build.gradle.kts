@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    compileSdk = 35
+    compileSdk = 36
     namespace = "io.github.takusan23.mobilestatuswidget"
 
     defaultConfig {
         applicationId = "io.github.takusan23.mobilestatuswidget"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 7
         versionName = "1.4.0"
 
